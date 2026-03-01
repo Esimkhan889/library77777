@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>№77 Мектеп Кітапханасы</title>
+
+<style>
+:root{
+  --bg:#0b1020;
+  --card:#141b33;
+  --accent:#7c5cff;
+  --accent2:#00d4ff;
+  --text:#eaf0ff;
+  --muted:#9aa6c0;
+  --line:rgba(255,255,255,.08);
+}
+
+body{
+  margin:0;
+  font-family:system-ui;
+  background:radial-gradient(circle at 20% 0%, rgba(124,92,255,.3), transparent 50%),
+             radial-gradient(circle at 80% 10%, rgba(0,212,255,.3), transparent 50%),
+             var(--bg);
+  color:var(--text);
+  transition:0.3s;
+}
+
+.light{
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --text:#111;
+  --muted:#555;
+}
+
+.wrap{max-width:1200px;margin:auto;padding:24px}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 0;
+}
+
+.logo{
+  font-weight:900;
+  font-size:22px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+button{
+  padding:8px 14px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  font-weight:700;
+}
+
+.hero{
+  background:var(--card);
+  padding:30px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  margin-bottom:25px;
+}
+
+.hero h1{margin:0 0 10px;font-size:32px}
+.hero p{color:var(--muted)}
+
+.searchBox{
+  margin:20px 0;
+}
+
+input{
+  padding:12px;
+  width:100%;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--text);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat{
+  background:var(--card);
+  padding:20px;
+  border-radius:18px;
+  border:1px solid var(--line);
+}
+
+.stat b{font-size:22px;display:block}
+
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:20px;
+  border:1px solid var(--line);
+  margin-top:25px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid var(--line);
+  font-size:14px;
+}
+
+th{color:var(--muted)}
+
+tr:hover{background:rgba(255,255,255,.03)}
+
+.pill{
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.ok{background:#22c55e;color:black}
+.bad{background:#ef4444}
+
+footer{
+  text-align:center;
+  margin-top:40px;
+  color:var(--muted);
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header>
+<div class="logo">№77 Мектеп Кітапханасы</div>
+<button onclick="toggleMode()">🌙 / ☀</button>
+</header>
+
+<section class="hero">
+<h1>«Кітап – адамзаттың рухани қазынасы.» 📚</h1>
+<p>
+Әр оқылған кітап – жаңа ой, жаңа көзқарас, жаңа мүмкіндік. 
+№77 мектеп кітапханасы оқушылардың білімге деген құштарлығын арттыруға қызмет етеді.
+</p>
+</section>
+
+<div class="searchBox">
+<input type="text" id="search" placeholder="Кітап немесе оқушы іздеу...">
+</div>
+
+<div class="stats">
+<div class="stat"><b id="total"></b>Барлық кітап</div>
+<div class="stat"><b id="available"></b>Қолжетімді</div>
+<div class="stat"><b id="borrowed"></b>Берілген</div>
+<div class="stat"><b id="topClass"></b>Ең белсенді сынып</div>
+</div>
+
+<div class="card">
+<h2>📚 Кітаптар тізімі</h2>
+<table>
+<thead>
+<tr>
+<th>Кітап</th>
+<th>Автор</th>
+<th>Сынып</th>
+<th>Оқушы</th>
+<th>Статус</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+<section class="card">
+<h2>📚 Кітапхана ақпараттары</h2>
+
+<h3>📜 Кітапхана тәртібі</h3>
+<ul style="color:var(--muted);line-height:1.7">
+<li>Кітап таза әрі ұқыпты күйде сақталуы тиіс.</li>
+<li>Белгіленген мерзімде қайтару міндетті.</li>
+<li>Кітап жоғалған жағдайда жауапкершілік оқушыға жүктеледі.</li>
+</ul>
+
+<h3>📦 Қордағы кітаптар</h3>
+<p style="color:var(--muted);line-height:1.7">
+Кітапхана қорында көркем әдебиет, тарихи шығармалар, ғылыми еңбектер және оқу құралдары бар. 
+Барлық кітаптар электронды базаға тіркеліп, жүйелі түрде жаңартылып отырады.
+</p>
+
+<h3>👩‍🎓 Оқушылардағы кітаптар</h3>
+<p style="color:var(--muted);line-height:1.7">
+Оқушылар алған кітаптар арнайы есеп жүйесіне енгізіледі. 
+Қайтару мерзімі бақылауда ұсталып, сыныптар бойынша белсенділік анықталады.
+</p>
+
+</section>
+
+<footer>© №77 мектеп · 2026</footer>
+
+</div>
+
+<script>
+const books = [
+{title:"Менің атым Қожа",author:"Б.Соқпақбаев",class:"7A",student:"Ерасыл Қанатұлы",status:"borrowed"},
+{title:"Абай жолы",author:"М.Әуезов",class:"9B",student:"Аружан Ермекқызы",status:"borrowed"},
+{title:"Қазақ хандығы",author:"І.Есенберлин",class:"8A",student:"-",status:"available"},
+{title:"Алпамыс батыр",author:"Эпос",class:"6B",student:"-",status:"available"},
+{title:"Harry Potter",author:"J.K.Rowling",class:"8C",student:"Данияр Сұлтанұлы",status:"borrowed"},
+{title:"Математика 8",author:"Оқу құралы",class:"8B",student:"-",status:"available"},
+{title:"Физика негіздері",author:"Оқу құралы",class:"9A",student:"Айару Нұрқызы",status:"borrowed"},
+{title:"Биология 7",author:"Оқу құралы",class:"7B",student:"-",status:"available"},
+{title:"География 8",author:"Оқу құралы",class:"8A",student:"-",status:"available"},
+{title:"Қазақ тілі 9",author:"Оқу құралы",class:"9C",student:"Мадина Ержанқызы",status:"borrowed"},
+{title:"Дала жыры",author:"І.Жансүгіров",class:"7C",student:"-",status:"available"},
+{title:"Қазақстан тарихы",author:"Оқу құралы",class:"9A",student:"-",status:"available"},
+{title:"English Grammar",author:"Oxford",class:"8C",student:"-",status:"available"},
+{title:"Информатика 9",author:"Оқу құралы",class:"9B",student:"Нұрдәулет Маратұлы",status:"borrowed"},
+{title:"Химия 8",author:"Оқу құралы",class:"8B",student:"-",status:"available"},
+
+// Жаңа 10 кітап
+{title:"Шәкәрім шығармалары",author:"М.Шәкәрім",class:"9C",student:"-",status:"available"},
+{title:"Қыз Жібек",author:"Қ.Жұбанов",class:"7A",student:"-",status:"available"},
+{title:"Том Сойердің шытырман оқиғалары",author:"М.Твен",class:"8B",student:"-",status:"available"},
+{title:"Айнаға қараған сәт",author:"С.Сейфуллин",class:"9B",student:"-",status:"available"},
+{title:"Әдебиет тарихы",author:"Оқу құралы",class:"10A",student:"-",status:"available"},
+{title:"Физика 10",author:"Оқу құралы",class:"10B",student:"-",status:"available"},
+{title:"Химия 10",author:"Оқу құралы",class:"10C",student:"-",status:"available"},
+{title:"Биология 10",author:"Оқу құралы",class:"10A",student:"-",status:"available"},
+{title:"География 10",author:"Оқу құралы",class:"10B",student:"-",status:"available"},
+{title:"Қазақ әдебиеті 10",author:"Оқу құралы",class:"10C",student:"-",status:"available"}
+];
+
+const tbody=document.getElementById("tbody");
+const search=document.getElementById("search");
+
+function render(){
+const q=search.value.toLowerCase();
+const filtered=books.filter(b=>
+b.title.toLowerCase().includes(q) ||
+b.student.toLowerCase().includes(q)
+);
+
+tbody.innerHTML=filtered.map(b=>`
+<tr>
+<td><b>${b.title}</b></td>
+<td>${b.author}</td>
+<td>${b.class}</td>
+<td>${b.student}</td>
+<td>${b.status==="available"
+?'<span class="pill ok">Бар</span>'
+:'<span class="pill bad">Берілген</span>'}</td>
+</tr>
+`).join("");
+
+// Статистика
+document.getElementById("total").textContent=books.length;
+document.getElementById("available").textContent=books.filter(b=>b.status==="available").length;
+document.getElementById("borrowed").textContent=books.filter(b=>b.status==="borrowed").length;
+
+// Ең белсенді сынып
+const classCount={};
+books.filter(b=>b.status==="borrowed").forEach(b=>{
+classCount[b.class]=(classCount[b.class]||0)+1;
+});
+let top="-";
+let max=0;
+for(let c in classCount){
+  if(classCount[c]>max){ max=classCount[c]; top=c; }
+}
+document.getElementById("topClass").textContent=top;
+}
+
+function toggleMode(){
+document.body.classList.toggle("light");
+}
+
+search.addEventListener("input",render);
+render();
+</script>
+
+</body>
+</html>
